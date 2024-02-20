@@ -1,4 +1,4 @@
-module dynaext
+module terraform-provider-dynatrace-extension
 
 go 1.20
 

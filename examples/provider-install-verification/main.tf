@@ -8,4 +8,4 @@ terraform {
 
 provider "dynaext" {}
 
-data "dynatrace_test" "example" {}
+data "dynaext" "example" {}

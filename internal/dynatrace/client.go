@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const ConfigurationApiPath string = "/api/config/v1/"
+const ConfigurationApiPath string = "/api/config/v1"
 
 type DynatraceClient struct {
 	ApiToken string
@@ -69,10 +69,11 @@ func (c *DynatraceClient) getExtensions(pageSize int, nextPageKey *string) (*Get
 		return nil, err
 	}
 
-	req.Header.Set("Api-Token", c.ApiToken)
+	req.Header.Set("Authorization", fmt.Sprintf("Api-Token %s", c.ApiToken))
+	req.Header.Set("accept", "application/json; charset=utf-8")
 
 	queryParams := req.URL.Query()
-	queryParams.Set("pageSize", string(pageSize))
+	queryParams.Set("pageSize", fmt.Sprintf("%d",pageSize))
 
 	if(nextPageKey != nil) {
 		queryParams.Set("nextPageKey", *nextPageKey)
@@ -92,7 +93,7 @@ func (c *DynatraceClient) getExtensions(pageSize int, nextPageKey *string) (*Get
 	}
 
 	if(response.StatusCode != 200) {
-		return nil, errors.New(fmt.Sprintf("can't retrieve extensions: reason %d %s", response.StatusCode, string(responseBody)))
+		return nil, fmt.Errorf("can't retrieve extensions: reason %d %s", response.StatusCode, string(responseBody))
 	}
 
 	var extensions GetExtensionsResponse

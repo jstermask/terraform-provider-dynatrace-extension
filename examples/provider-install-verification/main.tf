@@ -8,4 +8,4 @@ terraform {
 
 provider "dynaext" {}
 
-data "dynaext" "example" {}
+data "dynaext_list_custom" "example" {}

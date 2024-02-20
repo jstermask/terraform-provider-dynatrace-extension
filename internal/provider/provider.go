@@ -27,9 +27,9 @@ type DynatraceExtensionProvider struct {
 	version string
 }
 
-type DynatraceExtensionProviderModel struct {
-	EnvironmentUrl types.String `tfsdk:"envUrl"`
-	ApiToken       types.String `tfsdk:"apiToken"`
+type dynatraceExtensionProviderModel struct {
+	EnvironmentUrl types.String `tfsdk:"env_url"`
+	ApiToken       types.String `tfsdk:"api_token"`
 }
 
 func New(version string) func() provider.Provider {
@@ -48,11 +48,11 @@ func (p *DynatraceExtensionProvider) Metadata(ctx context.Context, req provider.
 func (p *DynatraceExtensionProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"envUrl": schema.StringAttribute{
-				Optional: false,
+			"env_url": schema.StringAttribute{
+				Optional: true,
 			},
-			"apiToken": schema.StringAttribute{
-				Optional: false,
+			"api_token": schema.StringAttribute{
+				Optional: true,
 			},
 		},
 	}
@@ -60,7 +60,7 @@ func (p *DynatraceExtensionProvider) Schema(ctx context.Context, req provider.Sc
 
 func (p *DynatraceExtensionProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
 	// first checking provider configuration values
-	var config DynatraceExtensionProviderModel
+	var config dynatraceExtensionProviderModel
 
 	// reading configuration...
 	diags := req.Config.Get(ctx, &config)
@@ -74,11 +74,11 @@ func (p *DynatraceExtensionProvider) Configure(ctx context.Context, req provider
 
 	// checking configuration values...
 	if config.ApiToken.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(path.Root("apiToken"), "Unknown API Token", "Provider cannot create the client because API Token is unknown")
+		resp.Diagnostics.AddAttributeError(path.Root("api_token"), "Unknown API Token", "Provider cannot create the client because API Token is unknown")
 	}
 
 	if config.EnvironmentUrl.IsUnknown() {
-		resp.Diagnostics.AddAttributeError(path.Root("envUrl"), "Unknown Environment URL", "Provider cannot create the client because Environment URL is unknown")
+		resp.Diagnostics.AddAttributeError(path.Root("env_url"), "Unknown Environment URL", "Provider cannot create the client because Environment URL is unknown")
 	}
 
 	if resp.Diagnostics.HasError() {
@@ -102,11 +102,11 @@ func (p *DynatraceExtensionProvider) Configure(ctx context.Context, req provider
 
 	// checking values validity
 	if envUrl == "" {
-		resp.Diagnostics.AddAttributeError(path.Root("envUrl"), "Missing Environment URL", "Provider cannot create the client because Environment URL is missing")
+		resp.Diagnostics.AddAttributeError(path.Root("env_url"), "Missing Environment URL", "Provider cannot create the client because Environment URL is missing")
 	}
 
 	if apiToken == "" {
-		resp.Diagnostics.AddAttributeError(path.Root("apiToken"), "Missing API Token", "Provider cannot create the client because API Token is missing")
+		resp.Diagnostics.AddAttributeError(path.Root("api_token"), "Missing API Token", "Provider cannot create the client because API Token is missing")
 	}
 
 	if resp.Diagnostics.HasError() {
@@ -126,7 +126,9 @@ func (p *DynatraceExtensionProvider) Configure(ctx context.Context, req provider
 }
 
 func (p *DynatraceExtensionProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return nil
+	return []func() datasource.DataSource {
+		NewExtensionDataSource,
+	}
 }
 
 func (p *DynatraceExtensionProvider) Resources(ctx context.Context) []func() resource.Resource {

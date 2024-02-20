@@ -1,6 +1,6 @@
 module terraform-provider-dynatrace-extension
 
-go 1.20
+go 1.21.6
 
 require (
 	github.com/hashicorp/terraform-plugin-docs v0.16.0
@@ -8,6 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-go v0.21.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-testing v1.6.0
+	github.com/jstermask/dynatrace_client v0.0.0-20240220181916-b8937f731836
 )
 
 require (

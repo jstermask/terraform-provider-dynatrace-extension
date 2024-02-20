@@ -6,8 +6,8 @@ package provider
 import (
 	"context"
 	"os"
-	"terraform-provider-dynatrace-extension/internal/dynatrace"
-
+	
+	"github.com/jstermask/dynatrace_client"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -114,7 +114,7 @@ func (p *DynatraceExtensionProvider) Configure(ctx context.Context, req provider
 		return
 	}
 
-	client, err := dynatrace.NewClient(&envUrl, &apiToken)
+	client, err := dynatrace_client.NewClient(&envUrl, &apiToken)
 	if(err != nil) {
 		resp.Diagnostics.AddError("Unable to created Dynatrace API Client", "Unexpected error :" + err.Error())
 		return
@@ -126,11 +126,14 @@ func (p *DynatraceExtensionProvider) Configure(ctx context.Context, req provider
 }
 
 func (p *DynatraceExtensionProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource {
+	/*return []func() datasource.DataSource {
 		NewExtensionDataSource,
-	}
+	}*/
+	return nil
 }
 
 func (p *DynatraceExtensionProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return nil
+	return []func() resource.Resource {
+		NewExtensionResource,
+	}
 }

@@ -8,7 +8,7 @@ import (
 	"flag"
 	"log"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"dynatrace-extension/internal/provider"
+	"dynaext/internal/provider"
 )
 
 // Run "go generate" to format example terraform files and generate the docs for the registry/website

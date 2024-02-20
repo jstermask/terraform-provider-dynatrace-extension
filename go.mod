@@ -1,4 +1,4 @@
-module dynatrace-extension
+module dynaext
 
 go 1.20
 

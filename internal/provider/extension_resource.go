@@ -3,8 +3,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"github.com/jstermask/dynatrace_client"
+	"time"
 
+	"github.com/jstermask/dynatrace_client"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -18,7 +19,7 @@ var (
 
 type extensionResourceModel struct {
 	Id          types.String `tfsdk:"id"`
-	name		types.String `tfsdk:"name"`
+	Name		types.String `tfsdk:"name"`
 	LastUpdated types.String `tfsdk:"last_updated"`
 	Payload     types.String `tfsdk:"payload"`
 }
@@ -49,7 +50,7 @@ func (r *extensionResource) Schema(_ context.Context, _ resource.SchemaRequest, 
 				Computed: true,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Computed: true,
 			},
 			"payload": schema.StringAttribute{
 				Required: true,
@@ -67,11 +68,54 @@ func (r *extensionResource) Create(ctx context.Context, req resource.CreateReque
         return
     }
 
+	createRequest := dynatrace_client.DynatraceExtensionCreateRequest {
+		Payload: plan.Payload.ValueString(),
+	}
 
+
+	createResponse, err := r.client.CreateExtension(&createRequest)
+	if err != nil {
+		resp.Diagnostics.AddError("Unable to create extension", fmt.Sprintf("Extension creation failed : %v", err))
+		return
+	}
+	
+	plan.Id = types.StringValue(createResponse.Id)
+	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	plan.Name = types.StringValue(createResponse.Name)
+	
+	diags = resp.State.Set(ctx, plan)
+	resp.Diagnostics.Append(diags...)
+	if(resp.Diagnostics.HasError()) {
+		return
+	}
 }
 
 // Read refreshes the Terraform state with the latest data.
 func (r *extensionResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state extensionResourceModel
+    diags := req.State.Get(ctx, &state)
+    resp.Diagnostics.Append(diags...)
+    if resp.Diagnostics.HasError() {
+        return
+    }
+
+	clientRequest := dynatrace_client.DynatraceExtensionGetBinaryRequest{
+		Id: state.Id.ValueString(),
+	}
+
+	extensionPayload, err := r.client.GetExtensionBinary(&clientRequest)
+	if err != nil {
+		resp.Diagnostics.AddError("Unable to get latest extension", fmt.Sprintf("Extension %s get binary failed : %v", state.Id, err))
+		return
+	}
+
+	state.Payload = types.StringValue(extensionPayload.Payload)
+
+	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
 }
 
 // Update updates the resource and sets the updated Terraform state on success.

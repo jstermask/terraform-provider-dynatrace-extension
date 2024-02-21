@@ -8,4 +8,6 @@ terraform {
 
 provider "dynaext" {}
 
-data "dynaext_list_custom" "example" {}
+resource "dynaext_extension" "example" {
+  payload = file("./custom.my.test.ext.json")
+}

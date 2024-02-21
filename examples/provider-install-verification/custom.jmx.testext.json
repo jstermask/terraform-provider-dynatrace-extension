@@ -1,16 +1,16 @@
 {
-  "version": "1.0.0",
-  "name": "custom.my.test.ext",
+  "version": "1.0",
+  "name": "custom.jmx.testext",
   "type": "JMX",
   "entity": "PROCESS_GROUP_INSTANCE",
   "metricGroup": "my.test",
   "configUI": {
-    "displayName": "Custom JMX Monitoring"
+    "displayName": "Custom JMX Monitoring change"
   },
   "metrics": [
     {
       "timeseries": {
-        "key": "os.process_cpu_load",
+        "key": "os_process_cpu_load",
         "unit": "Percent",
         "displayname": "Process CPU usage (%)",
         "dimensions": [

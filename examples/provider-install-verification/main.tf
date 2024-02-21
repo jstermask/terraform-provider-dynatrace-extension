@@ -9,5 +9,5 @@ terraform {
 provider "dynaext" {}
 
 resource "dynaext_extension" "example" {
-  payload = file("./custom.my.test.ext.json")
+  payload = file("./custom.jmx.testext.json")
 }

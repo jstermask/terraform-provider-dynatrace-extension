@@ -130,6 +130,10 @@ github.com/jstermask/dynatrace_client v0.0.0-20240221131706-70435f692674 h1:g09i
 github.com/jstermask/dynatrace_client v0.0.0-20240221131706-70435f692674/go.mod h1:V8lKNDQ63+2kvIPMgTF/tml3DCO1F1ZO6ca2ei/OPWs=
 github.com/jstermask/dynatrace_client v0.0.0-20240221141332-b9c5d45501fb h1:C4DOaWKxhMNkjVev2uy3r8Wfe20aeAS4yY4KMHAb//I=
 github.com/jstermask/dynatrace_client v0.0.0-20240221141332-b9c5d45501fb/go.mod h1:V8lKNDQ63+2kvIPMgTF/tml3DCO1F1ZO6ca2ei/OPWs=
+github.com/jstermask/dynatrace_client v0.0.0-20240221144248-5c3b4200cd4e h1:08X+nhjEiOlWiE4p/SVqe14hYiDkkchamlIN0KAH+wE=
+github.com/jstermask/dynatrace_client v0.0.0-20240221144248-5c3b4200cd4e/go.mod h1:V8lKNDQ63+2kvIPMgTF/tml3DCO1F1ZO6ca2ei/OPWs=
+github.com/jstermask/dynatrace_client v0.0.0-20240221153143-55aa926e5662 h1:NQQZc+vNAQgP91xbQ4M8wrtyROo35LlAEoXUaBCN3wY=
+github.com/jstermask/dynatrace_client v0.0.0-20240221153143-55aa926e5662/go.mod h1:V8lKNDQ63+2kvIPMgTF/tml3DCO1F1ZO6ca2ei/OPWs=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
 github.com/kevinburke/ssh_config v1.2.0/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=

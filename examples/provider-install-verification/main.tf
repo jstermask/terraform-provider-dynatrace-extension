@@ -1,13 +1,12 @@
 terraform {
   required_providers {
-    dynaext = {
+    dynatrace-extension = {
       source = "registry.terraform.io/jstermask/dynatrace-extension"
     }
   }
 }
 
-provider "dynaext" {}
 
-/*resource "dynaext_extension" "example" {
+resource "dynatrace-extension_extension" "custom_jmx_testext_extension" {
   payload = file("./custom.jmx.testext.json")
-}*/
+}

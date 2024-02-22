@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-go v0.21.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-testing v1.6.0
-	github.com/jstermask/dynatrace_client v0.0.0-20240221153143-55aa926e5662
+	github.com/jstermask/dynatrace_client v0.0.0-20240221161456-6e8eddb437ea
 )
 
 require (

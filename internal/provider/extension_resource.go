@@ -120,10 +120,57 @@ func (r *extensionResource) Read(ctx context.Context, req resource.ReadRequest, 
 
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *extensionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan extensionResourceModel
+    diags := req.Plan.Get(ctx, &plan)
+    resp.Diagnostics.Append(diags...)
+    if resp.Diagnostics.HasError() {
+        return
+    }
+
+	createRequest := dynatrace_client.DynatraceExtensionCreateRequest {
+		Payload: plan.Payload.ValueString(),
+	}
+
+
+	createResponse, err := r.client.CreateExtension(&createRequest)
+	if err != nil {
+		resp.Diagnostics.AddError("Unable to update extension", fmt.Sprintf("Extension update failed : %v", err))
+		return
+	}
+	
+	plan.Id = types.StringValue(createResponse.Id)
+	plan.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	plan.Name = types.StringValue(createResponse.Name)
+	
+	diags = resp.State.Set(ctx, plan)
+	resp.Diagnostics.Append(diags...)
+	if(resp.Diagnostics.HasError()) {
+		return
+	}
 }
 
 // Delete deletes the resource and removes the Terraform state on success.
 func (r *extensionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state extensionResourceModel
+    diags := req.State.Get(ctx, &state)
+    resp.Diagnostics.Append(diags...)
+    if resp.Diagnostics.HasError() {
+        return
+    }
+
+	deleteRequest := dynatrace_client.DynatraceExtensionDeleteRequest{
+		Id: state.Id.ValueString(),
+	}
+
+    // Delete existing order
+    err := r.client.DeleteExtension(&deleteRequest)
+    if err != nil {
+        resp.Diagnostics.AddError(
+            "Error Deleting dynatrace extension",
+            "Could not delete extension, unexpected error: "+err.Error(),
+        )
+        return
+    }
 }
 
 func (r *extensionResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {

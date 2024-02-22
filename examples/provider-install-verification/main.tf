@@ -8,6 +8,6 @@ terraform {
 
 provider "dynaext" {}
 
-resource "dynaext_extension" "example" {
+/*resource "dynaext_extension" "example" {
   payload = file("./custom.jmx.testext.json")
-}
+}*/

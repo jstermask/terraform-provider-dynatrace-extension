@@ -41,7 +41,7 @@ func New(version string) func() provider.Provider {
 }
 
 func (p *DynatraceExtensionProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "dynaext"
+	resp.TypeName = "dynatrace-extension"
 	resp.Version = p.version
 }
 
